@@ -17,18 +17,23 @@
  * along with Moonlight; if not, see <http://www.gnu.org/licenses/>.
  */
 
+#pragma once
+
 #include "xml.h"
 
 #include "limelight-common/Limelight.h"
 
-#include "stdbool.h"
+#include <stdbool.h>
 
-void client_init(const char* serverAddress);
-void client_start_app(STREAM_CONFIGURATION *config, const char* serverAddress, int appId, bool sops, bool localaudio);
-struct app_list* client_applist(const char* serverAddress);
-int client_get_app_id(const char* serverAddress, const char* name);
-void client_pair(const char *address);
-int client_get_server_version(void);
-bool client_is_paired(const char *address);
-int client_get_current_game(const char *address);
-void client_quit_app(const char *address);
+typedef struct _SERVER_DATA {
+  const char* address;
+  bool paired;
+  int currentGame;
+  int serverMajorVersion;
+} SERVER_DATA, *PSERVER_DATA;
+
+int gs_init(PSERVER_DATA server, const char *address);
+int gs_start_app(PSERVER_DATA server, PSTREAM_CONFIGURATION config, int appId, bool sops, bool localaudio);
+int gs_applist(PSERVER_DATA server, PAPP_LIST app_list);
+int gs_pair(PSERVER_DATA server, char* pin);
+int gs_quit_app(PSERVER_DATA server);

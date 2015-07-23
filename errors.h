@@ -17,11 +17,11 @@
  * along with Moonlight; if not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <signal.h>
-#include <pthread.h>
+#pragma once
 
-pthread_t main_thread_id;
-
-void quit() {
-  pthread_kill(main_thread_id, SIGTERM);
-}
+#define GS_OK 0
+#define GS_FAILED -1
+#define GS_OUT_OF_MEMORY -2
+#define GS_INVALID -3
+#define GS_WRONG_STATE -4
+#define GS_IO_ERROR -5
