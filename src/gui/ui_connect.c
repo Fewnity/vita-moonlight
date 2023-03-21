@@ -447,7 +447,7 @@ int ui_connected_menu()
 
 device_info_t *ui_connect_and_pairing(device_info_t *info)
 {
-  flash_message("Test connecting to:\n %s...", info->internal);
+  flash_message("Test connecting to:\n %s...\nIt may take a while...", info->internal);
   char key_dir[4096];
   sprintf(key_dir, "%s/%s", config.key_dir, info->name);
   sceIoMkdir(key_dir, 0777);
