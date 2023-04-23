@@ -442,6 +442,7 @@ enum
   SETTINGS_RESOLUTION = 100,
   SETTINGS_FPS,
   SETTINGS_BITRATE,
+  SETTINGS_PACKET_SIZE,
   SETTINGS_SOPS,
   SETTINGS_ENABLE_FRAME_INVAL,
   SETTINGS_ENABLE_STREAM_OPTIMIZE,
@@ -464,6 +465,7 @@ enum
   SETTINGS_VIEW_RESOLUTION,
   SETTINGS_VIEW_FPS,
   SETTINGS_VIEW_BITRATE,
+  SETTINGS_VIEW_PACKET_SIZE,
   SETTINGS_VIEW_SOPS,
   SETTINGS_VIEW_ENABLE_FRAME_INVAL,
   SETTINGS_VIEW_ENABLE_STREAM_OPTIMIZE,
@@ -620,6 +622,26 @@ static int settings_loop(int id, void *context, const input_data *input)
       }
     }
     break;
+  // case SETTINGS_PACKET_SIZE:
+  //   if ((input->buttons & config.btn_confirm) == 0 || input->buttons & SCE_CTRL_HOLD)
+  //   {
+  //     break;
+  //   }
+  //   char value2[512];
+  //   if ((ret = ime_dialog_number(value2, "Enter packet size: ", "")) == 0)
+  //   {
+  //     int packetSize = atoi(value2);
+  //     if (packetSize)
+  //     {
+  //       config.stream.packetSize = packetSize;
+  //       did_change = 1;
+  //     }
+  //     else
+  //     {
+  //       display_error("Incorrect packet size entered: %s", value2);
+  //     }
+  //   }
+  //   break;
   case SETTINGS_SOPS:
     if ((input->buttons & config.btn_confirm) == 0 || input->buttons & SCE_CTRL_HOLD)
     {
@@ -785,6 +807,9 @@ static int settings_loop(int id, void *context, const input_data *input)
   sprintf(current, "%d", config.stream.bitrate);
   MENU_REPLACE(SETTINGS_VIEW_BITRATE, current);
 
+  // sprintf(current, "%d", config.stream.packetSize);
+  // MENU_REPLACE(SETTINGS_VIEW_PACKET_SIZE, current);
+
   sprintf(current, "%s", config.sops ? "yes" : "no");
   MENU_REPLACE(SETTINGS_VIEW_SOPS, current);
 
@@ -868,6 +893,7 @@ int ui_settings_menu()
   MENU_ENTRY(SETTINGS_RESOLUTION, SETTINGS_VIEW_RESOLUTION, "Resolution", ICON_LEFT_RIGHT_ARROWS);
   MENU_ENTRY(SETTINGS_FPS, SETTINGS_VIEW_FPS, "FPS", ICON_LEFT_RIGHT_ARROWS);
   MENU_ENTRY(SETTINGS_BITRATE, SETTINGS_VIEW_BITRATE, "Bitrate", "");
+  //MENU_ENTRY(SETTINGS_PACKET_SIZE, SETTINGS_VIEW_PACKET_SIZE, "Packet size", "");
   MENU_ENTRY(SETTINGS_SOPS, SETTINGS_VIEW_SOPS, "Change graphical game settings for performance", "");
   MENU_ENTRY(SETTINGS_ENABLE_FRAME_INVAL, SETTINGS_VIEW_ENABLE_FRAME_INVAL, "Enable reference frame invalidation", "");
   MENU_ENTRY(SETTINGS_ENABLE_STREAM_OPTIMIZE, SETTINGS_VIEW_ENABLE_STREAM_OPTIMIZE, "Enable stream optimization", "");

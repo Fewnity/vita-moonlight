@@ -92,7 +92,13 @@ static int ini_handle(void *out, const char *section, const char *name,
       config->stream.fps = INT(value);
     } else if (strcmp(name, "bitrate") == 0) {
       config->stream.bitrate = INT(value);
-    } else if (strcmp(name, "sops") == 0) {
+    }
+    else if (strcmp(name, "packetsize") == 0)
+    {
+      config->stream.packetSize = INT(value);
+    }
+    else if (strcmp(name, "sops") == 0)
+    {
       config->sops = BOOL(value);
     } else if (strcmp(name, "localaudio") == 0) {
       config->localaudio = BOOL(value);
