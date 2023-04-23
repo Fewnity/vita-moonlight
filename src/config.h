@@ -54,6 +54,7 @@ typedef struct _CONFIGURATION {
   char key_dir[4096];
   bool sops;
   bool localaudio;
+  bool high_quality_audio;
   bool fullscreen;
   bool forcehw;
   bool unsupported_version;
@@ -85,3 +86,4 @@ bool config_file_parse(char* filename, PCONFIGURATION config);
 void config_parse(int argc, char* argv[], PCONFIGURATION config);
 void config_save(const char* filename, PCONFIGURATION config);
 void update_layout();
+void update_audio_quality();

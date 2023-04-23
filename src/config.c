@@ -31,6 +31,8 @@
 
 #include <psp2/kernel/sysmem.h>
 
+#include <Limelight-internal.h>
+
 #define MOONLIGHT_PATH "/moonlight"
 #define USER_PATHS "."
 #define DEFAULT_CONFIG_DIR "/.config"
@@ -102,7 +104,13 @@ static int ini_handle(void *out, const char *section, const char *name,
       config->sops = BOOL(value);
     } else if (strcmp(name, "localaudio") == 0) {
       config->localaudio = BOOL(value);
-    } else if (strcmp(name, "enable_frame_pacer") == 0) {
+    }
+    else if (strcmp(name, "high_quality_audio") == 0)
+    {
+      config->high_quality_audio = BOOL(value);
+    }
+    else if (strcmp(name, "enable_frame_pacer") == 0)
+    {
       config->enable_frame_pacer = BOOL(value);
     } else if (strcmp(name, "center_region_only") == 0) {
       config->center_region_only = BOOL(value);
@@ -159,6 +167,8 @@ void config_save(const char* filename, PCONFIGURATION config) {
     write_config_bool(fd, "sops", config->sops);
   if (config->localaudio)
     write_config_bool(fd, "localaudio", config->localaudio);
+  if (config->high_quality_audio)
+    write_config_bool(fd, "high_quality_audio", config->high_quality_audio);
 
   if (strcmp(config->app, "Steam") != 0)
     write_config_string(fd, "app", config->app);
@@ -192,12 +202,23 @@ void config_save(const char* filename, PCONFIGURATION config) {
   fclose(fd);
 }
 
-void update_layout() {
-  if (config.jp_layout) {
+void update_audio_quality(){
+  if(config.high_quality_audio){
+    HIGH_AUDIO_BITRATE_THRESHOLD = 0;
+  }else{
+    HIGH_AUDIO_BITRATE_THRESHOLD = 50000;
+  }
+}
+
+void update_layout()
+{
+  if (config.jp_layout)
+  {
     config.btn_confirm = SCE_CTRL_CIRCLE;
     config.btn_cancel = SCE_CTRL_CROSS;
   }
-  else {
+  else
+  {
     config.btn_confirm = SCE_CTRL_CROSS;
     config.btn_cancel = SCE_CTRL_CIRCLE;
   }
@@ -222,6 +243,7 @@ void config_parse(int argc, char* argv[], PCONFIGURATION config) {
   config->address = NULL;
   config->config_file = NULL;
   config->sops = true;
+  config->high_quality_audio = false;
   config->localaudio = false;
   config->fullscreen = true;
   config->unsupported_version = false;
@@ -252,6 +274,7 @@ void config_parse(int argc, char* argv[], PCONFIGURATION config) {
   }
 
   update_layout();
+  update_audio_quality();
 
   if (config->config_file != NULL)
     config_save(config->config_file, config);

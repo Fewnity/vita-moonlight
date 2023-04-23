@@ -451,6 +451,7 @@ enum
   SETTINGS_DISABLE_POWERSAVE,
   SETTINGS_JP_LAYOUT,
   SETTINGS_SHOW_FPS,
+  SETTINGS_HIGH_QUALITY_AUDIO,
   SETTINGS_LOCAL_AUDIO,
   SETTINGS_ENABLE_FRAME_PACER,
   SETTINGS_CENTER_REGION_ONLY,
@@ -474,6 +475,7 @@ enum
   SETTINGS_VIEW_DISABLE_POWERSAVE,
   SETTINGS_VIEW_JP_LAYOUT,
   SETTINGS_VIEW_SHOW_FPS,
+  SETTINGS_VIEW_HIGH_QUALITY_AUDIO,
   SETTINGS_VIEW_LOCAL_AUDIO,
   SETTINGS_VIEW_ENABLE_FRAME_PACER,
   SETTINGS_VIEW_CENTER_REGION_ONLY,
@@ -706,6 +708,14 @@ static int settings_loop(int id, void *context, const input_data *input)
     did_change = 1;
     config.show_fps = !config.show_fps;
     break;
+  case SETTINGS_HIGH_QUALITY_AUDIO:
+    if ((input->buttons & config.btn_confirm) == 0 || input->buttons & SCE_CTRL_HOLD)
+    {
+      break;
+    }
+    did_change = 1;
+    config.high_quality_audio = !config.high_quality_audio;
+    break;
   case SETTINGS_LOCAL_AUDIO:
     if ((input->buttons & config.btn_confirm) == 0 || input->buttons & SCE_CTRL_HOLD)
     {
@@ -831,6 +841,9 @@ static int settings_loop(int id, void *context, const input_data *input)
   sprintf(current, "%s", config.show_fps ? "yes" : "no");
   MENU_REPLACE(SETTINGS_VIEW_SHOW_FPS, current);
 
+  sprintf(current, "%s", config.high_quality_audio ? "yes" : "no");
+  MENU_REPLACE(SETTINGS_VIEW_HIGH_QUALITY_AUDIO, current);
+
   sprintf(current, "%s", config.localaudio ? "yes" : "no");
   MENU_REPLACE(SETTINGS_VIEW_LOCAL_AUDIO, current);
 
@@ -862,6 +875,7 @@ static int settings_back(void *context)
 {
   ui_settings_save_config();
   update_layout();
+  update_audio_quality();
   return 0;
 }
 
@@ -899,6 +913,7 @@ int ui_settings_menu()
   MENU_ENTRY(SETTINGS_ENABLE_STREAM_OPTIMIZE, SETTINGS_VIEW_ENABLE_STREAM_OPTIMIZE, "Enable stream optimization", "");
   MENU_ENTRY(SETTINGS_ENABLE_VITA_VBLANK_WAIT, SETTINGS_VIEW_ENABLE_VITA_VBLANK_WAIT, "Enable VITA vblank", "");
   MENU_ENTRY(SETTINGS_ENABLE_FRAME_PACER, SETTINGS_VIEW_ENABLE_FRAME_PACER, "Enable frame pacer", "");
+  MENU_ENTRY(SETTINGS_HIGH_QUALITY_AUDIO, SETTINGS_VIEW_HIGH_QUALITY_AUDIO, "Enable high quality audio", "");
   MENU_ENTRY(SETTINGS_LOCAL_AUDIO, SETTINGS_VIEW_LOCAL_AUDIO, "Enable local audio", "");
 
   MENU_CATEGORY("System");
