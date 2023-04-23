@@ -69,12 +69,11 @@ static char *settings_special_names[] = {"None",
                                          "I", "M", "Tab",
                                          "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12"};
 
-#define MAX_RESOLUTION 10
+#define MAX_RESOLUTION 9
 static int RESOLUTIONS[MAX_RESOLUTION][2] = {
-    {720, 408},  // 16:9,
-    {858, 480},  // 16:9,
+    {720, 408},  // 30:17,
     {960, 540},  // 16:9, QHD
-    {960, 544},  // VITA original
+    {960, 544},  // VITA original 30:17
     {1024, 576}, // 16:9
     {1152, 648}, // 16:9
     //{1280, 540}, // 21:9
